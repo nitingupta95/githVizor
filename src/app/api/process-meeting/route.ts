@@ -11,7 +11,7 @@ const bodyParser= z.object({
 
 
 
-export const maxDuration= 5 * 60; // 15 minutes in seconds
+export const maxDuration= 300; // 15 minutes in seconds
 
 
 
