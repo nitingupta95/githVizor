@@ -1,4 +1,4 @@
-# GitHub SaaS
+# GitVizor
 
 > A SaaS‑style application built by Nitin Gupta to provide scalable, multi-tenant management with modern web technologies.
 
