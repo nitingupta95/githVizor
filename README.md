@@ -1,29 +1,94 @@
-# Create T3 App
+# GitHub SaaS
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+> A SaaS‑style application built by Nitin Gupta to provide scalable, multi-tenant management with modern web technologies.
 
-## What's next? How do I make an app with this?
+## 🧩 Project Overview  
+GitHub SaaS is a full-stack, production-ready SaaS boilerplate designed to handle user authentication, subscription management, and real-time collaboration.  
+It provides a flexible foundation for building SaaS applications with robust backend APIs and a responsive frontend.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## 🚀 Tech Stack  
+- **Frontend**: React / Next.js / Vite  
+- **Backend**: Node.js + Express + Prisma + MongoDB  
+- **Database**: MongoDB  
+- **Auth & Security**: JWT, OAuth (GitHub OAuth)  
+- **Deployment**: Vercel  
+- **Others**: Stripe (billing), Socket.io (real-time updates)
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## 📦 Features  
+- ✅ Multi‑tenant architecture  
+- 🔐 Secure authentication with JWT & OAuth  
+- 💳 Stripe billing and subscription management  
+- 🧑‍💼 Role‑based access control (RBAC)  
+- 📊 Admin dashboard for analytics  
+- 📨 Real‑time notifications and collaboration  
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## 🛠️ Getting Started  
+### Prerequisites  
+- Node.js (>=18)  
+- npm or yarn  
+- MongoDB instance (local or cloud)  
+- Stripe API keys & GitHub OAuth credentials  
 
-## Learn More
+### Installation  
+```bash
+git clone https://github.com/nitingupta95/githubSaas.git
+cd githubSaas
+npm install
+```
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Configuration  
+Copy `.env.example` to `.env` and update environment variables:  
+```env
+DATABASE_URL= your-databse-url
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your-key
+CLERK_SECRET_KEY=your-key
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/dashboard
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL='/sync-user'
+GITHUB_TOKEN=your-token
+GEMINI_API_KEY=your-api-key
+OPENAI_API_KEY=your-api-key
+ASSEMBLYAI_API_KEY=your-api-key
+STRIPE_SECRET_KEY=your-secret-key
+STRIPE_PUBLISHABLE_KEY=your-key 
+STRIPE_WEBHOOK_SECRET=your-secret
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+STRIPE_API_VERSION=2024-06-20
+```
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+Run migrations (if using Prisma):  
+```bash
+npx prisma migrate dev
+```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+### Run Locally  
+```bash
+npm run dev
+```  
+App will be available at `http://localhost:3000`.
 
-## How do I deploy this?
+### Build for Production  
+```bash
+npm run build
+npm run start
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## 🧪 Tests  
+```bash
+npm run test
+```
+
+## 🧑‍💻 Contributing  
+Contributions are always welcome!  
+1. Fork the repository  
+2. Create a branch (`git checkout -b feature/YourFeature`)  
+3. Commit your changes  
+4. Push to your fork  
+5. Open a Pull Request  
+
+## 📄 License  
+Licensed under the [MIT License](LICENSE).
+
+---
+Made with ❤️ by [Nitin Gupta](https://github.com/nitingupta95)
