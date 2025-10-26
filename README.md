@@ -3,7 +3,7 @@
 > A SaaS‑style application built by Nitin Gupta to provide scalable, multi-tenant management with modern web technologies.
 
 ## 🧩 Project Overview  
-GitHub SaaS is a full-stack, production-ready SaaS boilerplate designed to handle user authentication, subscription management, and real-time collaboration.  
+GitVizor is a full-stack, production-ready SaaS boilerplate designed to handle user authentication, subscription management, and real-time collaboration.  
 It provides a flexible foundation for building SaaS applications with robust backend APIs and a responsive frontend.
 
 ## 🚀 Tech Stack  
@@ -31,8 +31,8 @@ It provides a flexible foundation for building SaaS applications with robust bac
 
 ### Installation  
 ```bash
-git clone https://github.com/nitingupta95/githubSaas.git
-cd githubSaas
+git clone https://github.com/nitingupta95/githVizor.git
+cd githVizor
 npm install
 ```
 
