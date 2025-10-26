@@ -4,7 +4,7 @@ export default async function Home() {
    
   return (
     <div>
-     <Button>Click me</Button>
+     redirect("/dashboard");
     </div> 
   )
 }
