@@ -5,13 +5,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 
 const {
+  PrismaClientKnownRequestError,
+  PrismaClientUnknownRequestError,
+  PrismaClientRustPanicError,
+  PrismaClientInitializationError,
+  PrismaClientValidationError,
+  getPrismaClient,
+  sqltag,
+  empty,
+  join,
+  raw,
+  skip,
   Decimal,
+  Debug,
   objectEnumValues,
   makeStrictEnum,
+  Extensions,
+  warnOnce,
+  defineDmmfProperty,
   Public,
   getRuntime,
-  skip
-} = require('./runtime/index-browser.js')
+  createParam,
+} = require('./runtime/wasm-engine-edge.js')
 
 
 const Prisma = {}
@@ -20,79 +35,35 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.14.0
- * Query Engine version: 717184b7b35ea05dfa71a3236b7af656013e1e49
+ * Prisma Client JS version: 6.18.0
+ * Query Engine version: 34b5a692b7bd79939a9a2c3ef97d816e749cda2f
  */
 Prisma.prismaVersion = {
-  client: "6.14.0",
-  engine: "717184b7b35ea05dfa71a3236b7af656013e1e49"
+  client: "6.18.0",
+  engine: "34b5a692b7bd79939a9a2c3ef97d816e749cda2f"
 }
 
-Prisma.PrismaClientKnownRequestError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientKnownRequestError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)};
-Prisma.PrismaClientUnknownRequestError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientUnknownRequestError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientRustPanicError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientRustPanicError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientInitializationError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientInitializationError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientValidationError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientValidationError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
+Prisma.PrismaClientUnknownRequestError = PrismaClientUnknownRequestError
+Prisma.PrismaClientRustPanicError = PrismaClientRustPanicError
+Prisma.PrismaClientInitializationError = PrismaClientInitializationError
+Prisma.PrismaClientValidationError = PrismaClientValidationError
 Prisma.Decimal = Decimal
 
 /**
  * Re-export of sql-template-tag
  */
-Prisma.sql = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`sqltag is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.empty = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`empty is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.join = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`join is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.raw = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`raw is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.sql = sqltag
+Prisma.empty = empty
+Prisma.join = join
+Prisma.raw = raw
 Prisma.validator = Public.validator
 
 /**
 * Extensions
 */
-Prisma.getExtensionContext = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`Extensions.getExtensionContext is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.defineExtension = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`Extensions.defineExtension is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.getExtensionContext = Extensions.getExtensionContext
+Prisma.defineExtension = Extensions.defineExtension
 
 /**
  * Shorthand utilities for JSON filtering
@@ -109,10 +80,11 @@ Prisma.NullTypes = {
 
 
 
+
+
 /**
  * Enums
  */
-
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
@@ -252,34 +224,82 @@ exports.Prisma.ModelName = {
   Issue: 'Issue',
   StripeTransaction: 'StripeTransaction'
 };
-
 /**
- * This is a stub Prisma Client that will error at runtime if called.
+ * Create the Client
  */
-class PrismaClient {
-  constructor() {
-    return new Proxy(this, {
-      get(target, prop) {
-        let message
-        const runtime = getRuntime()
-        if (runtime.isEdge) {
-          message = `PrismaClient is not configured to run in ${runtime.prettyName}. In order to run Prisma Client on edge runtime, either:
-- Use Prisma Accelerate: https://pris.ly/d/accelerate
-- Use Driver Adapters: https://pris.ly/d/driver-adapters
-`;
-        } else {
-          message = 'PrismaClient is unable to run in this browser environment, or has been bundled for the browser (running in `' + runtime.prettyName + '`).'
-        }
-
-        message += `
-If this is unexpected, please open an issue: https://pris.ly/prisma-prisma-bug-report`
-
-        throw new Error(message)
+const config = {
+  "generator": {
+    "name": "client",
+    "provider": {
+      "fromEnvVar": null,
+      "value": "prisma-client-js"
+    },
+    "output": {
+      "value": "/Users/nitingupta/Documents/Projects/gitvizor/githubSaas/generated/prisma",
+      "fromEnvVar": null
+    },
+    "config": {
+      "engineType": "library"
+    },
+    "binaryTargets": [
+      {
+        "fromEnvVar": null,
+        "value": "darwin-arm64",
+        "native": true
       }
-    })
+    ],
+    "previewFeatures": [],
+    "sourceFilePath": "/Users/nitingupta/Documents/Projects/gitvizor/githubSaas/prisma/schema.prisma",
+    "isCustomOutput": true
+  },
+  "relativeEnvPaths": {
+    "rootEnvPath": null
+  },
+  "relativePath": "../../prisma",
+  "clientVersion": "6.18.0",
+  "engineVersion": "34b5a692b7bd79939a9a2c3ef97d816e749cda2f",
+  "datasourceNames": [
+    "db"
+  ],
+  "activeProvider": "postgresql",
+  "postinstall": false,
+  "inlineDatasources": {
+    "db": {
+      "url": {
+        "fromEnvVar": "DATABASE_URL",
+        "value": null
+      }
+    }
+  },
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Commit {\n  id                 String   @id @default(cuid())\n  createdAt          DateTime @default(now())\n  updateAt           DateTime @updatedAt\n  projectId          String\n  commitMessage      String\n  commitHash         String\n  commitAuthorName   String\n  commitAuthorAvatar String\n  commitDate         DateTime\n  summary            String\n  Project            Project  @relation(fields: [projectId], references: [id])\n}\n\nmodel Project {\n  id                  String                @id @default(cuid())\n  createdAt           DateTime              @default(now())\n  updateAt            DateTime              @updatedAt\n  name                String\n  githubUrl           String\n  deletedAt           DateTime?\n  Commit              Commit[]\n  SavedQuestion       Question[]\n  SourceCodeEmbedding SourceCodeEmbedding[]\n  UserToProject       UserToProject[]\n\n  meetings Meeting[]\n}\n\nmodel Question {\n  id             String   @id @default(cuid())\n  createdAt      DateTime @default(now())\n  updateAt       DateTime @updatedAt\n  question       String\n  answer         String\n  fileReferences Json?\n  projectId      String\n  userId         String\n  Project        Project  @relation(fields: [projectId], references: [id])\n  User           User     @relation(fields: [userId], references: [id])\n}\n\nmodel SourceCodeEmbedding {\n  id               String                 @id @default(cuid())\n  summaryEmbedding Unsupported(\"vector\")?\n  sourceCode       String\n  fileName         String\n  summary          String\n  projectId        String\n  Project          Project                @relation(fields: [projectId], references: [id])\n}\n\nmodel User {\n  id                 String              @id @default(cuid())\n  createdAt          DateTime            @default(now())\n  updateAt           DateTime            @updatedAt\n  imageUrl           String?\n  firstName          String?\n  lastName           String?\n  emailAddress       String              @unique\n  credits            Int                 @default(150)\n  QuestionAsked      Question[]\n  UserToProject      UserToProject[]\n  StripeTransactions StripeTransaction[]\n}\n\nmodel UserToProject {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updateAt  DateTime @updatedAt\n  userId    String\n  projectId String\n  Project   Project  @relation(fields: [projectId], references: [id])\n  User      User     @relation(fields: [userId], references: [id])\n\n  @@unique([userId, projectId])\n}\n\nmodel Meeting {\n  id         String        @id @default(cuid())\n  createdAt  DateTime      @default(now())\n  updatedAt  DateTime      @default(now())\n  name       String\n  meetingUrl String\n  projectId  String\n  Project    Project       @relation(fields: [projectId], references: [id])\n  status     MeetingStatus @default(PROCESSING)\n  issues     Issue[]\n}\n\nmodel Issue {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now())\n\n  start     String\n  end       String\n  gist      String\n  headline  String\n  Summary   String\n  meetingId String\n  meeting   Meeting @relation(fields: [meetingId], references: [id])\n}\n\nenum MeetingStatus {\n  PROCESSING\n  COMPLETED\n  FAILED\n}\n\nmodel StripeTransaction {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now())\n  userId    String\n  user      User     @relation(fields: [userId], references: [id])\n  credits   Int\n}\n",
+  "inlineSchemaHash": "c967bca33d80c98648c76ee471765945146ffc6385cdd9845a5c8bb2b44ce559",
+  "copyEngine": true
+}
+config.dirname = '/'
+
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Commit\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"commitMessage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"commitHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"commitAuthorName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"commitAuthorAvatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"commitDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"CommitToProject\"}],\"dbName\":null},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"githubUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"Commit\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"CommitToProject\"},{\"name\":\"SavedQuestion\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"ProjectToQuestion\"},{\"name\":\"SourceCodeEmbedding\",\"kind\":\"object\",\"type\":\"SourceCodeEmbedding\",\"relationName\":\"ProjectToSourceCodeEmbedding\"},{\"name\":\"UserToProject\",\"kind\":\"object\",\"type\":\"UserToProject\",\"relationName\":\"ProjectToUserToProject\"},{\"name\":\"meetings\",\"kind\":\"object\",\"type\":\"Meeting\",\"relationName\":\"MeetingToProject\"}],\"dbName\":null},\"Question\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"question\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"answer\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fileReferences\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToQuestion\"},{\"name\":\"User\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"QuestionToUser\"}],\"dbName\":null},\"SourceCodeEmbedding\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sourceCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fileName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToSourceCodeEmbedding\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"credits\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"QuestionAsked\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"QuestionToUser\"},{\"name\":\"UserToProject\",\"kind\":\"object\",\"type\":\"UserToProject\",\"relationName\":\"UserToUserToProject\"},{\"name\":\"StripeTransactions\",\"kind\":\"object\",\"type\":\"StripeTransaction\",\"relationName\":\"StripeTransactionToUser\"}],\"dbName\":null},\"UserToProject\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updateAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToUserToProject\"},{\"name\":\"User\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserToProject\"}],\"dbName\":null},\"Meeting\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"meetingUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"MeetingToProject\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"MeetingStatus\"},{\"name\":\"issues\",\"kind\":\"object\",\"type\":\"Issue\",\"relationName\":\"IssueToMeeting\"}],\"dbName\":null},\"Issue\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"start\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"end\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gist\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"headline\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Summary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"meetingId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"meeting\",\"kind\":\"object\",\"type\":\"Meeting\",\"relationName\":\"IssueToMeeting\"}],\"dbName\":null},\"StripeTransaction\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"StripeTransactionToUser\"},{\"name\":\"credits\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
+config.engineWasm = {
+  getRuntime: async () => require('./query_engine_bg.js'),
+  getQueryEngineWasmModule: async () => {
+    const loader = (await import('#wasm-engine-loader')).default
+    const engine = (await loader).default
+    return engine
   }
 }
+config.compilerWasm = undefined
 
+config.injectableEdgeEnv = () => ({
+  parsed: {
+    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+  }
+})
+
+if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
+  Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined)
+}
+
+const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
-
 Object.assign(exports, Prisma)
+

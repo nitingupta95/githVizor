@@ -44,23 +44,30 @@ const items = [
 ];
 
 
- 
+
 export function AppSidebar() {
   const pathname = usePathname();
-  const {projects, projectId, setProjectId}= useProject()
+  const { projects, projectId, setProjectId } = useProject()
   const refetch = useRefetch();
-  const {open}= useSidebar();
+  const { open } = useSidebar();
   return (
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader>
-      <div className="flex items-center gap-2">
-        <Image src="/logo.png" alt="logo" width={40} height={40} />
-        {open && (        
-        <h1 className="text-xl font-bold text-primary/80">
-          GithubSaas
-        </h1>)}
+        <div className="flex items-center gap-2">
+          <Image
+            src="https://drive.google.com/uc?export=view&id=1nJ9nw232rt8o9QGSK3suuX1PtHBFszdQ"
+            alt="logo"
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
 
-      </div>
+          {open && (
+            <h1 className="text-xl font-bold text-primary/80">
+              GitVizor
+            </h1>)}
+
+        </div>
 
 
       </SidebarHeader>
@@ -69,24 +76,24 @@ export function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-            {items.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <Link
-                    href={item.url}
-                    className={cn(
-                      {
-                        "!bg-primary !text-white": pathname === item.url,
-                      },
-                      "list-none flex items-center gap-2"
-                    )}
-                  >
-                    <item.icon className="w-4 h-4" />
-                    <span>{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link
+                      href={item.url}
+                      className={cn(
+                        {
+                          "!bg-primary !text-white": pathname === item.url,
+                        },
+                        "list-none flex items-center gap-2"
+                      )}
+                    >
+                      <item.icon className="w-4 h-4" />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -96,16 +103,16 @@ export function AppSidebar() {
           <SidebarGroupLabel>
             Your Projects
           </SidebarGroupLabel>
-          <SidebarMenu> 
-            {projects?.map(project=>{
-              return(
+          <SidebarMenu>
+            {projects?.map(project => {
+              return (
                 <SidebarMenuItem key={project.name}>
                   <SidebarMenuButton asChild>
-                    <div onClick={()=>{
+                    <div onClick={() => {
                       setProjectId(project.id)
                     }}>
                       <div className={cn('rouned-sm border size-6 flex items-center justify-center text-sm bg-white text-primary',
-                        {'bg-primary text-white': project.id===projectId}
+                        { 'bg-primary text-white': project.id === projectId }
                       )}>
                         {project.name[0]}
 
@@ -122,12 +129,12 @@ export function AppSidebar() {
 
             {open && (
               <SidebarMenuItem>
-              <Link href="/create">
-                <Button size='sm' variant="outline" className="w-fit">
-                  <Plus/>
-                  Create project
-                </Button>
-              </Link>
+                <Link href="/create">
+                  <Button size='sm' variant="outline" className="w-fit">
+                    <Plus />
+                    Create project
+                  </Button>
+                </Link>
               </SidebarMenuItem>
             )}
 

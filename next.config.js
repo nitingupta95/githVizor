@@ -13,7 +13,15 @@ const config = {
     typescript:{
         // We run type checking in a separate process as part of our CI step
         ignoreBuildErrors: true,
-    }
+    },
+    images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "drive.google.com",
+      },
+    ],
+  },
 };
 
 export default config;
